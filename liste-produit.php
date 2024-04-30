@@ -1,11 +1,8 @@
 <?php
 
-header("Access-Control-Allow-Origin: *");
+require 'header-init.php';
 
-$listeProduit = [
-    ["nom" => "premier produit", "description" => "description 1er produit"],
-    ["nom" => "deuxieme produit", "description" => "description 2eme produit"],
-    ["nom" => "troisieme produit", "description" => "description 3eme produit"],
-];
+$requete = $connexion->query("SELECT * FROM produit" );
+$listeProduit = $requete->FetchAll();
 
 echo json_encode($listeProduit);

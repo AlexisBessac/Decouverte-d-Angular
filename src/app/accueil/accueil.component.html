@@ -1,1 +1,44 @@
-<p>accueil works!</p>
+<div class="container">
+
+    <button routerLink="/ajout-produit" mat-raised-button color="primary" class="mt-4">
+        <mat-icon fonction="add"></mat-icon>    
+        Ajouter un nouveau produit
+    </button>
+
+    <div class="row">
+
+        @for (produit of listeProduit; track $index) {
+
+        <div class="col-6 mt-4">
+
+            <mat-card class="example-ca}d">
+                <mat-card-header>
+                    <div mat-card-avatar class="example-header-image"></div>
+                    <mat-card-title>{{produit.nom}}</mat-card-title>
+                    <mat-card-subtitle>Dog Shiba</mat-card-subtitle>
+                </mat-card-header>
+                <img 
+                mat-card-image 
+                src= "{{produit.image}}"
+                style ="object-fit: color; height: 300px;"
+                />
+                <mat-card-content>
+                    <p>
+                        {{produit.description}}
+                    </p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button color="accent">
+                        <mat-icon fonction="edit"></mat-icon>
+                        Modifier
+                    </button>
+                    <button mat-raised-button color="warm" class="ms-2">
+                        <mat-icon fonction="delete"></mat-icon>    
+                        Supprimer
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+        }
+    </div>
+</div>
