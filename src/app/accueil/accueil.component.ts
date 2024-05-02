@@ -22,4 +22,9 @@ export class AccueilComponent {
     this.http.get("http://backendangular/liste-produit.php")
       .subscribe(listeProduit => this.listeProduit = listeProduit);
   }
+
+  onClickSupprimer(idProduit: number){
+    this.http.delete('http://backendangular/supprimer-produit.php?id' + idProduit)
+    .subscribe((resultat) => console.log(resultat));
+  }
 }
