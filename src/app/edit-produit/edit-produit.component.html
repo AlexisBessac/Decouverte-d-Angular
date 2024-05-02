@@ -1,20 +1,20 @@
 <form class="formulaire m-4" [formGroup]="formulaire" (ngSubmit)="onAjoutProduit()">
-    
+
     <mat-form-field>
         <mat-label>Nom</mat-label>
         <input matInput type="texte" placeholder="Ex. Expresso" formControlName="nom">
-    
-    @if(formulaire.get('nom')?.hasError('required')){
+
+        @if(formulaire.get('nom')?.hasError('required')){
         <mat-error>Le champ est requis</mat-error>
-    }
+        }
 
-    @if(formulaire.get('nom')?.hasError('minlength')){
+        @if(formulaire.get('nom')?.hasError('minlength')){
         <mat-error>Le nom doit avoir au minimum 3 caractères</mat-error>
-    }
+        }
 
-    @if(formulaire.get('nom')?.hasError('maxlength')){
+        @if(formulaire.get('nom')?.hasError('maxlength')){
         <mat-error>Le nom doit avoir au maximum 100 caractères</mat-error>
-    }
+        }
 
     </mat-form-field>
 
@@ -26,17 +26,25 @@
     <mat-form-field>
         <mat-label>Prix</mat-label>
         <input matInput type="number" min="0" formControlName="prix">
-    
+
         @if(formulaire.get('prix')?.hasError('required')){
-            <mat-error>Le champ est requis</mat-error>
+        <mat-error>Le champ est requis</mat-error>
         }
-    
+
         @if(formulaire.get('prix')?.hasError('min')){
-            <mat-error>Le prix doit être positif</mat-error>
+        <mat-error>Le prix doit être positif</mat-error>
         }
-    
+
     </mat-form-field>
-    
+
+    <div class="d-flex align-items-center mb-4">
+        <input #inputFile type="file" style="display : none;" (change)="onSelectionFichier($event)">
+        <button mat-mini-fab color="primary" type="button" (click)="inputFile.click()">
+            <mat-icon>attach-file</mat-icon>
+        </button>
+        <span class="ms-2">{{fichierSelectionne ? fichierSelectionne.name : "Auncun fichier séléctionné"}}</span>
+    </div>
+
     <button mat-raised-button color="primary">
         {{ idProduit ? "Modifier le produit" : "Ajouter le produit"}}
     </button>

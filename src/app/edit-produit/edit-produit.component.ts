@@ -2,13 +2,14 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-produit',
   standalone: true,
-  imports: [MatInputModule, MatButtonModule, FormsModule, ReactiveFormsModule, HttpClientModule],
+  imports: [MatInputModule, MatButtonModule, FormsModule, ReactiveFormsModule, HttpClientModule, MatIconModule],
   templateUrl: './edit-produit.component.html',
   styleUrl: './edit-produit.component.scss'
 })
@@ -42,18 +43,32 @@ export class EditProduitComponent {
     prix: [1, [Validators.required, Validators.min(0.01)]]
   })
 
+  fichierSelectionne: File | null = null
+
   onAjoutProduit() {
+    
+    const data = new FormData();
+
+    data.append("produit", JSON.stringify(this.formulaire.value))
+    
+    if(this.fichierSelectionne){
+      data.append("image", this.fichierSelectionne)
+    }
+
     if (this.formulaire.valid) {
       
       const url: string = this.idProduit
       ? 'http://backendangular/modifier-produit.php/?id=' + this.idProduit
       : 'http://backendangular/ajout-produit.php'
       
-      this.http.post(url, 
-      this.formulaire.value)
+      this.http.post(url, data)
       .subscribe((resultat) => {
         this.router.navigateByUrl('/accueil');
       });
     }
+  }
+
+  onSelectionFichier(evenement: any){
+    this.fichierSelectionne = evenement.target.files[0]
   }
 }
