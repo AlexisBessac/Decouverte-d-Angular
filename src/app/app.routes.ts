@@ -5,9 +5,14 @@ import { Page404Component } from './Page404/Page404.component';
 import { EditProduitComponent } from './edit-produit/edit-produit.component';
 
 export const routes: Routes = [
+    {path:"accueil/:recherche", component: AccueilComponent},    
     {path:"accueil", component: AccueilComponent},
+    
     {path:"connexion", component: ConnexionComponent},
+    
     {path:"ajout-produit", component:EditProduitComponent},
+    {path: "modifier-produit/:id", component:EditProduitComponent},
+    
     {path:"", redirectTo: "accueil", pathMatch: "full"},
     {path: "**", component: Page404Component}
 ];

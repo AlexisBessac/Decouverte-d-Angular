@@ -28,7 +28,7 @@
                     </p>
                 </mat-card-content>
                 <mat-card-actions>
-                    <button mat-raised-button color="accent">
+                    <button mat-raised-button color="accent" [routerLink]="'/modifier-produit/' + produit.id">
                         <mat-icon fonction="edit"></mat-icon>
                         Modifier
                     </button>

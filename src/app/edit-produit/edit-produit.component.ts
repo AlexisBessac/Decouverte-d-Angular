@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-produit',
@@ -17,6 +18,24 @@ export class EditProduitComponent {
 
   http: HttpClient = inject(HttpClient)
 
+  router: Router = inject (Router);
+
+  route: ActivatedRoute = inject(ActivatedRoute);
+
+  idProduit: number | null = null;
+
+  ngOnInit(){
+    this.route.params.subscribe(parametres => {
+
+      if(parametres['id'] != null && !isNaN(parametres['id'])){
+        this.idProduit = parametres['id']
+        
+        this.http.get('http://backendangular/produit.php?id=' + this.idProduit)
+        .subscribe((produit) => this.formulaire.patchValue(produit))
+      }
+    });
+  }
+
   formulaire: FormGroup = this.formbuilder.group({
     nom: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
     description: ['', []],
@@ -25,8 +44,15 @@ export class EditProduitComponent {
 
   onAjoutProduit() {
     if (this.formulaire.valid) {
-      this.http.post("http://backendangular/ajout-produit.php", this.formulaire.value).subscribe((resultat) => {
-        console.log(resultat)
+      
+      const url: string = this.idProduit
+      ? 'http://backendangular/modifier-produit.php/?id=' + this.idProduit
+      : 'http://backendangular/ajout-produit.php'
+      
+      this.http.post(url, 
+      this.formulaire.value)
+      .subscribe((resultat) => {
+        this.router.navigateByUrl('/accueil');
       });
     }
   }

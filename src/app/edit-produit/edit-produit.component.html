@@ -37,5 +37,7 @@
     
     </mat-form-field>
     
-    <button mat-raised-button color="primary">Ajouter le produit</button>
+    <button mat-raised-button color="primary">
+        {{ idProduit ? "Modifier le produit" : "Ajouter le produit"}}
+    </button>
 </form>
