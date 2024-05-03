@@ -25,6 +25,10 @@ export class EditProduitComponent {
 
   idProduit: number | null = null;
 
+  imageExistanteBdd: string  | null = null;
+
+  suppressionImageExistanteBdd: boolean = false;
+
   ngOnInit(){
     this.route.params.subscribe(parametres => {
 
@@ -32,7 +36,10 @@ export class EditProduitComponent {
         this.idProduit = parametres['id']
         
         this.http.get('http://backendangular/produit.php?id=' + this.idProduit)
-        .subscribe((produit) => this.formulaire.patchValue(produit))
+        .subscribe((produit: any) => {
+          this.formulaire.patchValue(produit)
+          this.imageExistanteBdd = produit.image;
+        })
       }
     });
   }
@@ -70,5 +77,9 @@ export class EditProduitComponent {
 
   onSelectionFichier(evenement: any){
     this.fichierSelectionne = evenement.target.files[0]
+  }
+
+  onSupressionImage(){
+    this.suppressionImageExistanteBdd = true;
   }
 }

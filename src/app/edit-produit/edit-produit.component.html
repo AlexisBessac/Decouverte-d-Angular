@@ -39,6 +39,15 @@
 
     <div class="d-flex align-items-center mb-4">
         <input #inputFile type="file" style="display : none;" (change)="onSelectionFichier($event)">
+        
+        @if(!imageExistanteBdd != null && imageExistanteBdd !=''){
+            <button mat-mini-fab color="warm" type="button" (click)="onSupressionImage()">
+                <mat-icon>delete</mat-icon>
+            </button>
+        }
+
+        
+        
         <button mat-mini-fab color="primary" type="button" (click)="inputFile.click()">
             <mat-icon>attach-file</mat-icon>
         </button>

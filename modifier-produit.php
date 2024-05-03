@@ -10,8 +10,7 @@ if (!isset($_GET['id'])) {
 
 $idProduit = $_GET["id"];
 
-// Prend les données brutes de la requête
-$json = file_get_contents('php://input');
+$json = $_POST['produit'];
 
 // Le convertit en objet PHP
 $produit = json_decode($json);
@@ -28,5 +27,24 @@ $requete->execute([
     "prix" =>  $produit->prix,
     "id" => $idProduit
 ]);
+
+$nouveauNomDeFichier = '';
+
+if(isset($_FILES['image'])){
+
+    $date = date("Y-m-d-H-i-s");
+
+    $nouveauNomDeFichier = $date . '-' . $_FILES['image']['name'];
+
+    move_uploaded_file($_FILES['image']['tmp_name'], "uploads/" . $nouveauNomDeFichier);
+
+    $requete = $connexion->prepare("UPDATE produit SET image = :image WHERE id = :id");
+
+    $requete->execute([
+        "image" => $nouveauNomDeFichier,
+        "id" => $idProduit
+    ]);
+
+}
 
 echo '{"message" : "Le produit a bien été modifié"}';
