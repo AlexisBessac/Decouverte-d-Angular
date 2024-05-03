@@ -29,6 +29,8 @@ export class EditProduitComponent {
 
   suppressionImageExistanteBdd: boolean = false;
 
+  suppressionImageExistante: string = '';
+
   ngOnInit(){
     this.route.params.subscribe(parametres => {
 
@@ -58,8 +60,8 @@ export class EditProduitComponent {
 
     data.append("produit", JSON.stringify(this.formulaire.value))
     
-    if(this.fichierSelectionne){
-      data.append("image", this.fichierSelectionne)
+    if(this.suppressionImageExistante){
+      data.append('supprimer_image', 'true')
     }
 
     if (this.formulaire.valid) {

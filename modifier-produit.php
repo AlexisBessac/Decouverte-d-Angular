@@ -1,6 +1,7 @@
 <?php
 
 include 'header-init.php';
+include 'produit-helper.php';
 
 if (!isset($_GET['id'])) {
     echo '{"message" : "il n\'y a pas d\'identiant dans l\'URL"}';
@@ -10,10 +11,14 @@ if (!isset($_GET['id'])) {
 
 $idProduit = $_GET["id"];
 
+// Prend les données brutes de la requête
+//$json = file_get_contents('php://input');
+
 $json = $_POST['produit'];
 
 // Le convertit en objet PHP
 $produit = json_decode($json);
+
 
 $requete = $connexion->prepare("UPDATE produit SET 
                                     nom = :nom, 
@@ -28,23 +33,36 @@ $requete->execute([
     "id" => $idProduit
 ]);
 
+
+//--- si l'utilsiateur veut supprimer l'ancienne image ---
+
+if (isset($_POST["supprimer_image"])) {
+
+    supprimerImageProduit($idProduit, $connexion);
+}
+
 $nouveauNomDeFichier = '';
 
-if(isset($_FILES['image'])){
+if (isset($_FILES['image'])) {
 
-    $date = date("Y-m-d-H-i-s");
+    supprimerImageProduit($idProduit, $connexion);
 
-    $nouveauNomDeFichier = $date . '-' . $_FILES['image']['name'];
+    //on upload la nouvelle image
 
-    move_uploaded_file($_FILES['image']['tmp_name'], "uploads/" . $nouveauNomDeFichier);
+   $nouveauNomDeFichier =upload();
 
-    $requete = $connexion->prepare("UPDATE produit SET image = :image WHERE id = :id");
+    $requete = $connexion->prepare("UPDATE produit SET 
+                                    image = :image
+                                    WHERE id = :id");
 
     $requete->execute([
-        "image" => $nouveauNomDeFichier,
+        "image" =>  $nouveauNomDeFichier,
         "id" => $idProduit
     ]);
-
 }
+
+
+
+
 
 echo '{"message" : "Le produit a bien été modifié"}';
