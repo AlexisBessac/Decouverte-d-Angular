@@ -68,28 +68,35 @@ export class EditProduitComponent {
   fichierSelectionne: File | null = null;
 
   onAjoutProduit() {
-    const data = new FormData();
+    //si l'utiisateur est connecté
+    const jwt = localStorage.getItem('jwt');
 
-    data.append('produit', JSON.stringify(this.formulaire.value));
+    if (jwt != null) {
+      const data = new FormData();
 
-    if (this.suppressionImageExistanteBdd) {
-      data.append('supprimer_image', 'true');
+      data.append('produit', JSON.stringify(this.formulaire.value));
+
+      if (this.suppressionImageExistanteBdd) {
+        data.append('supprimer_image', 'true');
+      }
+
+      if (this.fichierSelectionne) {
+        data.append('image', this.fichierSelectionne);
+      }
+
+      if (this.formulaire.valid) {
+        const url: string = this.idProduit
+          ? `http://backendangular/modifier-produit.php?id=${this.idProduit}`
+          : 'http://backendangular/ajout-produit.php';
+
+        this.http
+          .post(url, data, {
+            headers: { Authorization: jwt },
+          })
+          .subscribe((resultat) => this.router.navigateByUrl('/accueil'));
+      }
     }
-
-    if (this.fichierSelectionne) {
-      data.append('image', this.fichierSelectionne);
-    }
-
-    if (this.formulaire.valid) {
-      const url: string = this.idProduit
-        ? `http://backendangular/modifier-produit.php?id=${this.idProduit}`
-        : 'http://backendangular/ajout-produit.php';
-
-      this.http
-        .post(url, data)
-        .subscribe((resultat) => this.router.navigateByUrl('/accueil'));
-    }
-  }
+  }    
 
   onSelectionFichier(evenement: any) {
     this.fichierSelectionne = evenement.target.files[0];
