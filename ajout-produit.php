@@ -1,6 +1,7 @@
 <?php
 
 include 'header-init.php';
+include 'produit-helper.php';
 
 // Prend les données brutes de la requête
 // $json = file_get_contents('php://input');
@@ -11,11 +12,8 @@ $nouveauNomDeFichier = '';
 
 if(isset($_FILES['image'])){
 
-    $date = date("Y-m-d-H-i-s");
+    $nouveauNomDeFichier = upload();
 
-    $nouveauNomDeFichier = $date . '-' . $_FILES['image']['name'];
-
-    move_uploaded_file($_FILES['image']['tmp_name'], "uploads/" . $nouveauNomDeFichier);
 }
 
 // Le convertit en objet PHP
