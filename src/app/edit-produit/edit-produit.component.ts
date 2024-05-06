@@ -33,8 +33,10 @@ export class EditProduitComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
 
   idProduit: number | null = null;
-  imageExistanteBdd: string | null = null;
   suppressionImageExistanteBdd: boolean = false;
+
+  imageExistanteBdd: string | null = null; //url de l'image en
+  miniature: string | null = null;
 
   ngOnInit() {
     this.route.params.subscribe((parametres) => {
@@ -91,9 +93,20 @@ export class EditProduitComponent {
 
   onSelectionFichier(evenement: any) {
     this.fichierSelectionne = evenement.target.files[0];
+
+    if (this.fichierSelectionne) {
+      let reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        this.miniature = e.target.result;
+      };
+      reader.readAsDataURL(this.fichierSelectionne);
+    }
   }
 
   onSuppressionImage() {
     this.suppressionImageExistanteBdd = true;
+    this.miniature = null;
+    this.fichierSelectionne = null;
   }
 }

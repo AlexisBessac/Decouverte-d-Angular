@@ -37,16 +37,22 @@
 
     </mat-form-field>
 
-    <div class="d-flex align-items-center mb-4">
-        <input #inputFile type="file" style="display : none;" (change)="onSelectionFichier($event)">
-        
-        @if(!imageExistanteBdd != null && imageExistanteBdd !='' && !suppressionImageExistanteBdd){
-            <img src="http://backendangular/uploads/{{imageExistanteBdd}}" style="object-fit: contain; height: 80px;">
-            <button mat-mini-fab color="warm" type="button" (click)="onSuppressionImage()">
-                <mat-icon>delete</mat-icon>
-            </button>
-        }
+    <input #inputFile type="file" style="display : none;" (change)="onSelectionFichier($event)">
 
+    @if(miniature){
+    <img [src]="miniature" style="object-fit: contain; height: 80px;">
+    }@else if (!imageExistanteBdd != null && imageExistanteBdd !='' && !suppressionImageExistanteBdd){
+    <img src="http://backendangular/uploads/{{imageExistanteBdd}}" style="object-fit: contain; height: 80px;">
+    }
+
+    <div class="d-flex align-items-center mb-4">
+
+
+        @if(miniature ||(!imageExistanteBdd != null && !suppressionImageExistanteBdd)){
+        <button mat-mini-fab color="warm" type="button" (click)="onSuppressionImage()">
+            <mat-icon>delete</mat-icon>
+        </button>
+        }
         <button mat-mini-fab color="primary" type="button" (click)="inputFile.click()">
             <mat-icon>attach-file</mat-icon>
         </button>
