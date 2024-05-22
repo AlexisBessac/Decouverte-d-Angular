@@ -10,6 +10,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -35,8 +36,8 @@ export class EditProduitComponent {
   idProduit: number | null = null;
   suppressionImageExistanteBdd: boolean = false;
 
-  imageExistanteBdd: string | null = null; //url de l'image en
-  miniature: string | null = null;
+  imageExistanteBdd: string | null = null; //url de l'image en base de donnée
+  miniature: string | null = null; //url de l'image locale
 
   ngOnInit() {
     this.route.params.subscribe((parametres) => {
@@ -67,6 +68,8 @@ export class EditProduitComponent {
 
   fichierSelectionne: File | null = null;
 
+  snackBar: MatSnackBar = inject(MatSnackBar);
+
   onAjoutProduit() {
     //si l'utiisateur est connecté
     const jwt = localStorage.getItem('jwt');
@@ -93,10 +96,22 @@ export class EditProduitComponent {
           .post(url, data, {
             headers: { Authorization: jwt },
           })
-          .subscribe((resultat) => this.router.navigateByUrl('/accueil'));
+          .subscribe((resultat) => {
+            this.snackBar.open(
+              this.idProduit
+                ? 'Le produit a été modifié'
+                : 'Le produit a été ajouté',
+              undefined,
+              {
+                panelClass: 'snack-bar-valid',
+                duration: 3000,
+              }
+            );
+            this.router.navigateByUrl('/accueil');
+          });
       }
     }
-  }    
+  }
 
   onSelectionFichier(evenement: any) {
     this.fichierSelectionne = evenement.target.files[0];
@@ -109,6 +124,11 @@ export class EditProduitComponent {
       };
       reader.readAsDataURL(this.fichierSelectionne);
     }
+
+    // //si on change d'image et qu'il en existe une dans la bdd, on demande sa suppression.
+    // if (this.imageExistanteBdd != null && this.imageExistanteBdd != '') {
+    //   this.suppressionImageExistanteBdd = true;
+    // }
   }
 
   onSuppressionImage() {

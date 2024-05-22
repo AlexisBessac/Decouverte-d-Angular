@@ -30,7 +30,7 @@ export class InscriptionComponent {
     if (this.formulaire.valid) {
       this.http
         .post(
-          'http://localhost/backendangular/inscription.php',
+          'http://backendangular/inscription.php',
           this.formulaire.value
         )
         .subscribe((resultat: any) => console.log(resultat));

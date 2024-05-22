@@ -11,7 +11,8 @@ $utilisateur = json_decode($json);
 //TODO : verifier que le mot de passe et l'email ont les formats attendus
 
 //On ajoute l'utilisateur dans la base de données
-$requete = $connexion->prepare("INSERT INTO utilisateur(email,password,admin) VALUES (:email, :password, 0)");
+$requete = $connexion->prepare("INSERT INTO utilisateur(email,password,admin) 
+                                VALUES (:email, :password, 0)");
 
 $requete->bindValue("email", $utilisateur->email);
 $requete->bindValue("password", password_hash($utilisateur->password, PASSWORD_DEFAULT));

@@ -1,21 +1,42 @@
-import { ɵHTTP_ROOT_INTERCEPTOR_FNS } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import {
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet,
+} from '@angular/router';
+import { AuthentificationService } from './authentification.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, FormsModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, FormsModule],
 })
 export class AppComponent {
-  
-  texteRecherche: string = "";
-  router: Router = inject(Router)
+  texteRecherche: string = '';
 
-  onRecherche(){
-    this.router.navigate(['/accueil', this.texteRecherche])
+  router: Router = inject(Router);
+  authentification: AuthentificationService = inject(AuthentificationService);
+  snackBar: MatSnackBar = inject(MatSnackBar);
+
+  onRecherche() {
+    this.router.navigate(['/accueil', this.texteRecherche]);
+  }
+
+  onDeconnexion() {
+    localStorage.removeItem('jwt');
+
+    this.authentification.connecte = false;
+
+    this.snackBar.open('Vous êtes deconnecté', undefined, {
+      panelClass: 'snack-bar-valid',
+      duration: 3000,
+    });
+
+    this.router.navigateByUrl('/connexion');
   }
 }
