@@ -1,18 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
-.formulaire{
-    display: flex;
-    flex-direction: column;
-    max-width: 400px;
+.formulaire {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
 }
 
 .mat-mdc-snack-bar-container {
-    &.snack-bar-valid {
-      --mdc-snackbar-container-color: rgb(19, 178, 80);
-      --mat-mdc-snack-bar-button-color: #fff;
-      --mdc-snackbar-supporting-text-color: #fff;
-    }
+  &.snack-bar-valid {
+    --mdc-snackbar-container-color: rgb(19, 178, 80);
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
   }
+
+  &.snack-bar-warning {
+    --mdc-snackbar-container-color: rgb(216, 117, 30);
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
+}

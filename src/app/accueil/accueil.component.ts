@@ -53,7 +53,7 @@ export class AccueilComponent {
     if (jwt != null) {
       this.http
         .delete(
-          //'http://localhost/backend_angular_devweb1_24/supprimer-produit.php?id=' + idProduit
+          //'http://backendangular/supprimer-produit.php?id=' + idProduit
           `http://backendangular/supprimer-produit.php?id=${idProduit}`,
           {
             headers: { Authorization: jwt },

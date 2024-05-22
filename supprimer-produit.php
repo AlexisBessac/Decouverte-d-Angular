@@ -19,7 +19,7 @@ $produit = $requete->fetch();
 //si il n'y a pas de produit on retourne une erreur 404
 if(!$produit) {
     http_response_code(404);
-    echo '{"message" : "Ce produit produit n\'existe pas"}';
+    echo '{"message" : "Ce produit n\'existe pas"}';
     exit();
 }
 
