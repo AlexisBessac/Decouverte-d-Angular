@@ -1,14 +1,18 @@
-<form class="formulaire" [formGroup]="formulaire" (ngSubmit)="onConnexion()">
+<main>
+    <section class="container py-5">
+        <form class="formulaire" [formGroup]="formulaire" (ngSubmit)="onConnexion()">
     
-    <mat-form-field>
-        <mat-label>Email</mat-label>
-        <input matInput formControlName="email" type="email" placeholder="Ex. john.doe@domaine.com">
-    </mat-form-field>
-
-    <mat-form-field>
-        <mat-label>Mot de passe</mat-label>
-        <input matInput formControlName="password" type="password">
-    </mat-form-field>
-    
-    <button mat-raised-button color="primary">Se connecter</button>
-</form>
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" type="email" placeholder="Ex. john.doe@domaine.com">
+            </mat-form-field>
+        
+            <mat-form-field>
+                <mat-label>Mot de passe</mat-label>
+                <input matInput formControlName="password" type="password">
+            </mat-form-field>
+            
+            <button mat-raised-button color="primary">Se connecter</button>
+        </form>
+    </section>
+</main>
