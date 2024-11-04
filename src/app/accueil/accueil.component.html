@@ -24,18 +24,16 @@
                     style ="object-fit: color; height: 300px;"
                     />
                     <mat-card-content>
-                        <p>
+                        <p class="pt-3">
                             {{produit.description}}
                         </p>
                     </mat-card-content>
                     <mat-card-actions>
-                        <button mat-raised-button color="accent" [routerLink]="'/modifier-produit/' + produit.id">
-                            <mat-icon fonction="edit"></mat-icon>
-                            Modifier
+                        <button mat-mini-fab color="accent" [routerLink]="'/modifier-produit/' + produit.id">
+                            <mat-icon>edit</mat-icon>
                         </button>
-                        <button mat-raised-button color="warm" class="ms-2" (click)="onClickSupprime(produit.id)">
-                            <mat-icon fonction="delete"></mat-icon>    
-                            Supprimer
+                        <button mat-mini-fab color="warm" class="ms-2" (click)="onClickSupprime(produit.id)">
+                            <mat-icon>delete</mat-icon>    
                         </button>
                     </mat-card-actions>
                 </mat-card>
